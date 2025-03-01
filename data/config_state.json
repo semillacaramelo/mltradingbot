@@ -1,0 +1,11 @@
+{
+  "environment": "demo",
+  "trading_config": {
+    "symbol": "frxEURUSD",
+    "stake_amount": 10.0,
+    "duration": 60,
+    "max_position_size": 100.0,
+    "max_daily_loss": 50.0
+  },
+  "timestamp": 1740576923
+}
