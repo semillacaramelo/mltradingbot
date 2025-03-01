@@ -1,0 +1,38 @@
+2025-02-27 11:32:45,659 - deriv_bot.strategy.model_predictor - INFO - Loaded model from models/trained_model_long_term_20250227_113245.keras
+2025-02-27 11:32:45,669 - deriv_bot.strategy.model_predictor - INFO - Loaded scaler from models/trained_model_long_term_20250227_113245_metadata.pkl
+2025-02-27 11:32:45,670 - deriv_bot.strategy.model_predictor - INFO - Loaded scaler from models/trained_model_long_term_20250227_113245_metadata.pkl
+2025-02-27 11:32:45,670 - deriv_bot.strategy.model_predictor - INFO - Successfully loaded 1 model(s)
+2025-02-27 11:32:46,125 - deriv_bot.strategy.model_predictor - ERROR - Error making prediction: in user code:
+
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/training.py", line 2416, in predict_function  *
+        return step_function(self, iterator)
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/training.py", line 2401, in step_function  **
+        outputs = model.distribute_strategy.run(run_step, args=(data,))
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/training.py", line 2389, in run_step  **
+        outputs = model.predict_step(data)
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/training.py", line 2357, in predict_step
+        return self(x, training=False)
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/utils/traceback_utils.py", line 70, in error_handler
+        raise e.with_traceback(filtered_tb) from None
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/input_spec.py", line 298, in assert_input_compatibility
+        raise ValueError(
+
+    ValueError: Input 0 of layer "sequential" is incompatible with the layer: expected shape=(None, 10, 46), found shape=(None, 30, 46)
+
+2025-02-27 11:33:46,557 - deriv_bot.strategy.model_predictor - ERROR - Error making prediction: in user code:
+
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/training.py", line 2416, in predict_function  *
+        return step_function(self, iterator)
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/training.py", line 2401, in step_function  **
+        outputs = model.distribute_strategy.run(run_step, args=(data,))
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/training.py", line 2389, in run_step  **
+        outputs = model.predict_step(data)
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/training.py", line 2357, in predict_step
+        return self(x, training=False)
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/utils/traceback_utils.py", line 70, in error_handler
+        raise e.with_traceback(filtered_tb) from None
+    File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/keras/src/engine/input_spec.py", line 298, in assert_input_compatibility
+        raise ValueError(
+
+    ValueError: Input 0 of layer "sequential" is incompatible with the layer: expected shape=(None, 10, 46), found shape=(None, 30, 46)
+

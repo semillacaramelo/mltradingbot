@@ -1,0 +1,501 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "API Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Simulation"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Asset Selector Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Live Trading Bot (Demo)"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Strategy Tests"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot Demo"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot Demo Run"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot Demo Analysis"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot Demo Mode"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot Demo Full Run"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot Demo Current Run"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Fixed Trading Bot Demo"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Connection Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Connection Test After Fix"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Connectivity Test - Demo Mode"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Extended Connectivity Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Data Fetcher Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Final Connectivity Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot with Improved Connection"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "API Connectivity Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Long-Term Connectivity Verification"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Simulation Test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Data Module Tests"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Data Processor Tests"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run Trading Simulation"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Trading Bot with Enhanced Data Validation"
+
+[[workflows.workflow]]
+name = "Trading Bot"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug --check-connection"
+
+[[workflows.workflow]]
+name = "API Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_api_connectivity.py"
+
+[[workflows.workflow]]
+name = "Trading Simulation"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_trading_loop.py"
+
+[[workflows.workflow]]
+name = "Run Asset Selector Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m tests.test_asset_selector"
+
+[[workflows.workflow]]
+name = "Live Trading Bot (Demo)"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo"
+
+[[workflows.workflow]]
+name = "Run Strategy Tests"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m tests.test_strategy"
+
+[[workflows.workflow]]
+name = "Trading Bot Demo"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --train-only"
+
+[[workflows.workflow]]
+name = "Trading Bot Demo Run"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[[workflows.workflow]]
+name = "Trading Bot Demo Analysis"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo"
+
+[[workflows.workflow]]
+name = "Trading Bot Demo Mode"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[[workflows.workflow]]
+name = "Trading Bot Demo Full Run"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[[workflows.workflow]]
+name = "Trading Bot Demo Current Run"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[[workflows.workflow]]
+name = "Fixed Trading Bot Demo"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[[workflows.workflow]]
+name = "Connection Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_api_connectivity.py"
+
+[[workflows.workflow]]
+name = "Connection Test After Fix"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_api_connectivity.py"
+
+[[workflows.workflow]]
+name = "Connectivity Test - Demo Mode"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[[workflows.workflow]]
+name = "Extended Connectivity Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[[workflows.workflow]]
+name = "Data Fetcher Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_api_connectivity.py --extended"
+
+[[workflows.workflow]]
+name = "Final Connectivity Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --check-connection"
+
+[[workflows.workflow]]
+name = "Trading Bot with Improved Connection"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo"
+
+[[workflows.workflow]]
+name = "API Connectivity Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_api_connectivity.py --extended"
+
+[[workflows.workflow]]
+name = "Long-Term Connectivity Verification"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[[workflows.workflow]]
+name = "Trading Simulation Test"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_trading_loop.py"
+
+[[workflows.workflow]]
+name = "Data Module Tests"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m tests.test_data"
+
+[[workflows.workflow]]
+name = "Run Data Processor Tests"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m tests.test_data"
+
+[[workflows.workflow]]
+name = "Run Trading Simulation"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_trading_loop.py"
+
+[[workflows.workflow]]
+name = "Trading Bot with Enhanced Data Validation"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --env demo --debug"
+
+[deployment]
+run = ["sh", "-c", "python main.py"]
