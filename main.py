@@ -153,6 +153,10 @@ async def initialize_components(args, config):
 
         performance_tracker = PerformanceTracker()
         model_manager = ModelManager(max_models=int(os.getenv('MAX_MODELS_KEPT', '5')))
+        
+        # Initialize model trainer
+        from deriv_bot.strategy.model_trainer import ModelTrainer
+        model_trainer = ModelTrainer()
 
         # Clean up old model files if requested
         if args.clean_models:
@@ -175,6 +179,7 @@ async def initialize_components(args, config):
             'order_executor': order_executor,
             'performance_tracker': performance_tracker,
             'model_manager': model_manager,
+            'model_trainer': model_trainer,
             'asset_selector': asset_selector
         }
 
@@ -296,7 +301,16 @@ async def load_historical_data(data_fetcher, args, symbol, count=1000):
 async def train_model(components, historical_data, model_type='standard', save_timestamp=True, args=None):
     """Train model with latest data"""
     try:
-        # Correction: use model_trainer from components
+        # Initialize model trainer if not in components
+        from deriv_bot.strategy.model_trainer import ModelTrainer
+        from deriv_bot.strategy.model_evaluator import ModelEvaluator
+        
+        # Check if model_trainer exists in components, if not create it
+        if 'model_trainer' not in components:
+            # Create a new model trainer
+            components['model_trainer'] = ModelTrainer()
+            logger.info("Created new model trainer instance")
+        
         model_trainer = components['model_trainer']
         # Initialize model evaluator
         model_evaluator = ModelEvaluator()
@@ -308,52 +322,71 @@ async def train_model(components, historical_data, model_type='standard', save_t
             return None
 
         # Get custom training parameters with better defaults
-        sequence_length = args.sequence_length if args and args.sequence_length else 30
-        epochs = args.epochs if args and args.epochs else 100  # Increased default epochs
+        sequence_length = args.sequence_length if args and hasattr(args, 'sequence_length') else 30
+        epochs = args.epochs if args and hasattr(args, 'epochs') else 100  # Increased default epochs
         
         logger.info(f"Training {model_type} model with {len(historical_data)} data points")
         
-        # Process data with improved parameters
+        # Process data with compatible parameters (remove unsupported parameters)
         processed_data = components['data_processor'].prepare_data(
-            historical_data,
-            sequence_length=sequence_length,
-            validation_split=0.2,  # Add validation split
-            shuffle=True  # Add shuffle parameter
+            df=historical_data,
+            sequence_length=sequence_length
         )
         
         if processed_data is None:
             logger.error(f"Failed to process data for {model_type} model")
             return None
 
-        X_train, y_train, X_val, y_val, scaler = processed_data
+        # Unpack correctly based on the structure from data_processor.prepare_data
+        if len(processed_data) == 3:
+            X_train, y_train, scaler = processed_data
+            X_val, y_val = None, None
+        else:
+            # Handle unpacking for newer versions that return validation split
+            X_train, y_train, X_val, y_val, scaler = processed_data
         
         # Add early stopping and reduce learning rate on plateau
         callbacks = [
             tf.keras.callbacks.EarlyStopping(
-                monitor='val_loss',
+                monitor='val_loss' if X_val is not None else 'loss',
                 patience=10,
                 restore_best_weights=True
             ),
             tf.keras.callbacks.ReduceLROnPlateau(
-                monitor='val_loss',
+                monitor='val_loss' if X_val is not None else 'loss',
                 factor=0.5,
                 patience=5
             )
         ]
         
-        # Train with callbacks
-        history = model_trainer.train(
-            X_train, y_train,
-            validation_data=(X_val, y_val),
-            model_type=model_type,
-            callbacks=callbacks
-        )
+        # Train with callbacks and appropriate parameters
+        if X_val is not None:
+            # If validation data is available
+            history = model_trainer.train(
+                X_train, y_train,
+                validation_data=(X_val, y_val),
+                model_type=model_type,
+                epochs=epochs,
+                callbacks=callbacks
+            )
+        else:
+            # Otherwise train without validation data
+            history = model_trainer.train(
+                X_train, y_train,
+                model_type=model_type,
+                epochs=epochs,
+                callbacks=callbacks
+            )
         
         # Evaluate model
         if history:
+            # Use validation data if available, otherwise use training data
+            eval_X = X_val if X_val is not None else X_train
+            eval_y = y_val if y_val is not None else y_train
+            
             meets_threshold, metrics = model_evaluator.evaluate_model(
                 model_trainer.model,
-                X_val, y_val,
+                eval_X, eval_y,
                 history
             )
             
@@ -388,6 +421,8 @@ async def train_model(components, historical_data, model_type='standard', save_t
 
     except Exception as e:
         logger.error(f"Error in model training: {str(e)}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
         return None
 
 def save_emergency_model(model, model_type):
